@@ -10,7 +10,7 @@
  *
  * </pre>
  **/
- 
+
 package com.ketayao.action;
 
 import java.text.ParseException;
@@ -21,6 +21,8 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.time.DateUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.ketayao.fensy.mvc.WebContext;
 import com.ketayao.pojo.Article;
@@ -38,43 +40,46 @@ import com.ketayao.util.PageInfo;
  */
 
 public abstract class AbstractAction {
-	
-	protected static final String PAGE_404 = "blog/404";
-	protected static final String PAGE_500 = "blog/500";
-	protected static final String READ = "blog/blog-read";
-	
-	public String index(WebContext rc, String[] p) throws Exception {
-		referenceData(rc);
-		return process(rc, p); 
-	}
-	
-	protected abstract String process(WebContext rc, String[] p) throws Exception;
-	
-	protected void referenceData(WebContext rc) throws ParseException {
-		List<Category> categories = Category.INSTANCE.findTree(false);
-		List<Link> newestLinks = Link.INSTANCE.findNewest(new PageInfo(), Link.Status.SHOW);
-		List<Comment> newestComments = Comment.INSTANCE.findNewest(new PageInfo());
-		List<Article> newestArticles = Article.INSTANCE.findNewest(new PageInfo());
-		List<Article> hotestArticles = Article.INSTANCE.findHotest(new PageInfo());
 
-		SimpleDateFormat f = new SimpleDateFormat("yyyy-MM");
-		String string = SystemConfig.getConfig().get("blog.article.startMonth");
-		
-		Date startMonth = f.parse(string);
-		Date now = new Date();
-		List<Date> mothes = new ArrayList<Date>();
-		while (startMonth.compareTo(now) < 0) {
-			mothes.add(new Date(startMonth.getTime()));
-			
-			startMonth = DateUtils.addMonths(startMonth, 1);
-		}
-		Collections.reverse(mothes);
-		
-		rc.setRequestAttr("categories", categories);
-		rc.setRequestAttr("newestLinks", newestLinks);
-		rc.setRequestAttr("newestComments", newestComments);
-		rc.setRequestAttr("newestArticles", newestArticles);
-		rc.setRequestAttr("hotestArticles", hotestArticles);
-		rc.setRequestAttr("mothes", mothes);
-	}
+    protected static final String PAGE_404 = "blog/404";
+    protected static final String PAGE_500 = "blog/500";
+    protected static final String READ     = "blog/blog-read";
+
+    /** logger */
+    protected static final Logger LOGGER   = LoggerFactory.getLogger(AbstractAction.class);
+
+    public String index(WebContext rc, String[] p) throws Exception {
+        referenceData(rc);
+        return process(rc, p);
+    }
+
+    protected abstract String process(WebContext rc, String[] p) throws Exception;
+
+    protected void referenceData(WebContext rc) throws ParseException {
+        List<Category> categories = Category.INSTANCE.findTree(false);
+        List<Link> newestLinks = Link.INSTANCE.findNewest(new PageInfo(), Link.Status.SHOW);
+        List<Comment> newestComments = Comment.INSTANCE.findNewest(new PageInfo());
+        List<Article> newestArticles = Article.INSTANCE.findNewest(new PageInfo());
+        List<Article> hotestArticles = Article.INSTANCE.findHotest(new PageInfo());
+
+        SimpleDateFormat f = new SimpleDateFormat("yyyy-MM");
+        String string = SystemConfig.getConfig().get("blog.article.startMonth");
+
+        Date startMonth = f.parse(string);
+        Date now = new Date();
+        List<Date> mothes = new ArrayList<Date>();
+        while (startMonth.compareTo(now) < 0) {
+            mothes.add(new Date(startMonth.getTime()));
+
+            startMonth = DateUtils.addMonths(startMonth, 1);
+        }
+        Collections.reverse(mothes);
+
+        rc.setRequestAttr("categories", categories);
+        rc.setRequestAttr("newestLinks", newestLinks);
+        rc.setRequestAttr("newestComments", newestComments);
+        rc.setRequestAttr("newestArticles", newestArticles);
+        rc.setRequestAttr("hotestArticles", hotestArticles);
+        rc.setRequestAttr("mothes", mothes);
+    }
 }

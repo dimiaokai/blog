@@ -58,12 +58,13 @@ CREATE TABLE `lovej_articles` (
   `topTime` timestamp NULL DEFAULT NULL,
   `imgUrl` varchar(255) DEFAULT NULL,
   `permalink` varchar(255) DEFAULT NULL,
+  `editor` varchar(16) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `userId` (`userId`),
   KEY `categoryId` (`categoryId`),
   CONSTRAINT `lovej_articles_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `lovej_users` (`id`),
   CONSTRAINT `lovej_articles_ibfk_2` FOREIGN KEY (`categoryId`) REFERENCES `lovej_categories` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=63 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=65 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -79,10 +80,11 @@ CREATE TABLE `lovej_attaches` (
   `description` varchar(255) DEFAULT NULL,
   `url` varchar(255) NOT NULL,
   `download` int(11) DEFAULT NULL,
+  `type` varchar(16) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `articleId` (`articleId`),
   CONSTRAINT `lovej_attaches_ibfk_1` FOREIGN KEY (`articleId`) REFERENCES `lovej_articles` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -130,7 +132,7 @@ CREATE TABLE `lovej_comments` (
   KEY `parentId` (`parentId`),
   CONSTRAINT `lovej_comments_ibfk_1` FOREIGN KEY (`articleId`) REFERENCES `lovej_articles` (`id`),
   CONSTRAINT `lovej_comments_ibfk_2` FOREIGN KEY (`parentId`) REFERENCES `lovej_comments` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=625 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=649 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -237,4 +239,4 @@ CREATE TABLE `lovej_users` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-12-24 18:03:43
+-- Dump completed on 2016-01-12  2:05:26

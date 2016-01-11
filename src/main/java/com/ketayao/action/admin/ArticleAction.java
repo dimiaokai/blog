@@ -45,6 +45,8 @@ public class ArticleAction extends AbstractAction {
 
         rc.setRequestAttr("parents", parents);
         rc.setRequestAttr("tags", getTags(tags));
+        // editor为kindeditor,editormd
+        rc.setRequestAttr("editor", rc.getParam("editor", Constants.EDITOR_EDITORMD));
         return CREATE;
     }
 
@@ -137,6 +139,7 @@ public class ArticleAction extends AbstractAction {
         rc.setRequestAttr("attaches", article.getAttaches());
         rc.setRequestAttr("tags", getTags(tags));
 
+        rc.setRequestAttr("editor", rc.getParam("editor", article.getEditor()));
         return UPDATE;
     }
 

@@ -7,6 +7,8 @@ package com.ketayao.util;
 import java.util.List;
 
 import org.apache.commons.mail.HtmlEmail;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.ketayao.system.SystemConfig;
 
@@ -16,6 +18,9 @@ import com.ketayao.system.SystemConfig;
  * @version $Id: EmailUtils.java, v 0.1 2015年12月12日 下午8:12:41 yaoqiang.yq Exp $
  */
 public class EmailUtils {
+
+    /** logger */
+    private static final Logger LOGGER = LoggerFactory.getLogger(EmailUtils.class);
 
     /**
      * 描述
@@ -29,8 +34,14 @@ public class EmailUtils {
                                     String content) throws Exception {
         for (String address : emailAddress) {
             HtmlEmail email = new HtmlEmail();
-            email.setSmtpPort(587);
-            email.setStartTLSEnabled(true);
+            if (Boolean.parseBoolean(SystemConfig.getConfig().get("blog.exception.email.tls"))) {
+                email.setStartTLSEnabled(true);
+            }
+            if (Boolean.parseBoolean(SystemConfig.getConfig().get("blog.exception.email.ssl"))) {
+                email.setSSLOnConnect(true);
+            }
+            email.setSmtpPort(
+                Integer.parseInt(SystemConfig.getConfig().get("blog.exception.email.smtpport")));
             email.setHostName(SystemConfig.getConfig().get("blog.exception.email.hotname"));
             email.setAuthentication(SystemConfig.getConfig().get("blog.exception.email.name"),
                 SystemConfig.getConfig().get("blog.exception.email.password"));
@@ -46,6 +57,8 @@ public class EmailUtils {
             email.setTextMsg("Your email client does not support HTML messages");
 
             email.send();
+
+            LOGGER.info("邮件发送成功：address=" + address + ",content=" + content);
         }
     }
 }

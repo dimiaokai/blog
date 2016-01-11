@@ -28,16 +28,26 @@
   	<#if article.imgUrl?exists>
 		<center><img src="${article.imgUrl}" alt=""/></center>
   	</#if>
-	<#noescape>${article.content}</#noescape>
+  	<#if article.editor == 'editormd'>
+  	  <div>
+  	  <div id="editormd-content">
+           <textarea style="display:none;"><#noescape>${article.content}</#noescape></textarea>
+      <div>  
+      </div>        
+  	<#else>
+  		<#noescape>${article.content}</#noescape>
+  	</#if>
+	</div>
 	<#if article.attaches?size gt 0>
-		<h4>附件：</h4>
+	<div class="entry-content" style="border: 1px solid #ededed;">
+		<span style="font-weight: bold;font-size: 16px;color: red;">附件：</span>
 		<ul>
 		<#list article.attaches as a>
   			<li><a href="${rc.contextPath}/download?file=${a.url}" target="_blank">${a.description}</a>&nbsp;&nbsp;(下载次数:${a.download})</li>
 		</#list>
 		</ul>
-	</#if>
-	</div>
+	</div>	
+	</#if>	
   	<!-- .entry-content -->
   
 	<footer class="entry-meta"> 本条目发布于
@@ -118,7 +128,7 @@
 				</#if>
 			</header><!-- .comment-meta -->
 			<section class="comment-content comment">
-				<p><#noescape>${c.content}</#noescape></p>
+			  	<p><#noescape>${c.content}</#noescape></p>
 			</section><!-- .comment-content -->
 			<div class="reply">
 				<a onclick='return addParentId(${c.id})' href="#" class="comment-reply-link">回复</a> 
@@ -137,10 +147,48 @@
 	 </#if>	
 
 	</#if>
+	
 <#-- form验证 -->
 <link rel="stylesheet" href="${rc.contextPath}/styles/validator-0.2.1/jquery.validator.css" type="text/css"/>
 <script src="${rc.contextPath}/styles/validator-0.2.1/jquery.validator.js" type="text/javascript" charset="utf-8"></script>
-<script src="${rc.contextPath}/styles/validator-0.2.1/local/zh_CN.js" type="text/javascript" charset="utf-8"></script>
+<script src="${rc.contextPath}/styles/validator-0.2.1/local/zh_CN.js" type="text/javascript" charset="utf-8"></script>	
+<script>	
+    jQuery(document).ready(function(){
+		$('#commentform').validator({
+		    fields: {
+		        'name': 'length[0~16]',
+		        'email': 'email;length[0~64]',
+		        'site': 'url;length[0~128]',
+		        'content':'required;length[~250]',
+		        'verifyCode':'required;length[5]'
+		    }
+		});  
+    });	
+    
+    jQuery(document).ready(function(){
+    	$("#captcha").click(function(){
+    		$(this).attr("src", "${rc.contextPath}/ImageCaptcha?time=" + new Date());
+    		return false;
+    	});
+    });    
+</script>
+	
+<#if article.editor == 'editormd'>
+	<link rel="stylesheet" href="${rc.contextPath}/styles/editormd/css/editormd.preview.css" />
+	<script src="${rc.contextPath}/styles/editormd/lib/marked.min.js"></script>
+	<script src="${rc.contextPath}/styles/editormd/lib/prettify.min.js"></script>
+    <script src="${rc.contextPath}/styles/editormd/editormd.min.js"></script>
+    <script type="text/javascript">
+        $(function() {
+            var editormdContent;
+            
+            editormdContent = editormd.markdownToHTML("editormd-content", {
+                htmlDecode      : "style,script,iframe",  // you can filter tags decode
+                emoji           : true
+            });            
+        });
+    </script>
+</#if>
 <script charset="utf-8" src="${rc.contextPath}/styles/kindeditor-4.1.10/kindeditor-min.js"></script>
 <script>
 	var editor;
@@ -168,26 +216,8 @@
 			'insertunorderedlist', '|', 'emoticons', 'link','unlink','source','about']
 	    });
 	});
-	
-    jQuery(document).ready(function(){
-		$('#commentform').validator({
-		    fields: {
-		        'name': 'length[0~16]',
-		        'email': 'email;length[0~64]',
-		        'site': 'url;length[0~128]',
-		        'content':'required;length[~250]',
-		        'verifyCode':'required;length[5]'
-		    }
-		});  
-    });	
-    
-    jQuery(document).ready(function(){
-    	$("#captcha").click(function(){
-    		$(this).attr("src", "${rc.contextPath}/ImageCaptcha?time=" + new Date());
-    		return false;
-    	});
-    });    
 </script>	
+
 	<div class="comment-respond" id="respond">
 		<h3 class="comment-reply-title" id="reply-title">发表评论 <small><a style="display:none;" onclick='return removeParentId()' href="#" id="cancel-comment-reply-link" rel="nofollow">取消回复</a></small></h3>
 		<form class="comment-form" id="commentform" method="post" action="${rc.contextPath}/comment/${cp.pageIndex}">
@@ -198,9 +228,9 @@
 			<p class="comment-form-comment">
 				<label for="comment">评论
 					<span class="msg-box" data-for="content" style="margin-top:4px;"></span>
-				</label> 
-				<textarea aria-required="true" name="content" id="comment"></textarea>
-			</p>						
+				</label>
+			</p>
+			<textarea aria-required="true" name="content" id="comment"></textarea>						
 			<p class="form-submit">
 			<input type="hidden" id="comment_parent_ID" value="0" name="parentId">
 			<input type="hidden" id="comment_post_ID" value="${article.id}" name="articleId">

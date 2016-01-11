@@ -33,7 +33,7 @@ public class QuickStartServer {
                     break;
                 }
             }
-        } catch (Exception e) {
+        } catch (Throwable e) {
             e.printStackTrace();
         } finally {
             System.exit(-1);

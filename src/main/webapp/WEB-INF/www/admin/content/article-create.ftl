@@ -24,10 +24,93 @@
 			multiple: true,
 			matchContains: true
 		});
+		
+		$("#switchEditor").click(function(){
+			if(!confirm("切换编辑器将会丢失未保存的内容，确定离开吗？")){
+				return;
+			}
+			var edit;
+			<#if editor != 'editormd'>
+			edit = 'editormd';
+			<#else>
+			edit = 'kindeditor';
+			</#if>
+			var url = window.location.href;
+			if (url.indexOf('?') > -1) {
+				if (url.indexOf('?editor') > -1) {
+					url = url.substring(0, url.indexOf('?editor'));
+					url += '?editor=' + edit;
+				} else if (url.indexOf('&editor') > -1) {
+					url = url.substring(0, url.indexOf('&editor'));
+					url += '&editor=' + edit;
+				} else {
+					url += '&editor=' + edit;
+				}
+			} else {
+				url += '?editor=' + edit;
+			}
+			window.location.href=url;
+		});
     });
     
 </script>
 
+<#if editor == 'editormd'>
+<link rel="stylesheet" href="${rc.contextPath}/styles/editormd/css/editormd.css" />
+<style>
+.top-frame {
+	z-index:999999;
+}
+</style>
+<script src="${rc.contextPath}/styles/editormd/editormd.min.js"></script>
+<script type="text/javascript">
+	var editor;
+	var editorSummary;
+
+    $(function() {
+        // You can custom Emoji's graphics files url path
+        editormd.emoji     = {
+            path  : "http://www.emoji-cheat-sheet.com/graphics/emojis/",
+            ext   : ".png"
+        };
+    
+        editor = editormd("content", {
+            width   : "100%",
+            height  : 640,
+            syncScrolling : "single",
+            path    : "${rc.contextPath}/styles/editormd/lib/",
+            imageUpload : true,
+            imageFormats : ["jpg", "jpeg", "gif", "png", "bmp"],
+            imageUploadURL : "${rc.contextPath}/admin/file/upload?editor=editormd",
+			toc : true,
+            emoji : true,       // Support Github emoji, Twitter Emoji(Twemoji), fontAwesome, Editor.md logo emojis.
+            onfullscreen : function() {
+                $("#" + this.id).addClass("top-frame");
+            },
+            onfullscreenExit : function() {
+                $("#" + this.id).removeClass("top-frame");
+            }         
+        });
+        
+		editorSummary = editormd("summary", {
+            width   : "100%",
+            height  : 300,
+            syncScrolling : "single",
+            path    : "${rc.contextPath}/styles/editormd/lib/",
+            imageUpload : true,
+            imageFormats : ["jpg", "jpeg", "gif", "png", "bmp"],
+            imageUploadURL : "${rc.contextPath}/admin/file/upload?editor=editormd",
+            onfullscreen : function() {
+                $("#" + this.id).addClass("top-frame");
+            },
+            onfullscreenExit : function() {
+                $("#" + this.id).removeClass("top-frame");
+            }
+        });
+    });
+   
+</script>
+<#else>
 <script charset="utf-8" src="${rc.contextPath}/styles/kindeditor-4.1.10/kindeditor-min.js"></script>
 <link rel="stylesheet" type="text/css" href="${rc.contextPath}/styles/kindeditor-4.1.10/shcodeandquote.css" />
 <script>
@@ -76,6 +159,7 @@
 	});
 	
 </script>
+</#if>
 
 <script type="text/javascript" src="${rc.contextPath}/styles/AjaxFileUploaderV2.1/ajaxfileupload.js"></script>
 <script type="text/javascript">
@@ -168,14 +252,30 @@ function deleteImg(){
 				</#if>
 			</div>
 			<p>
-				<label>${bundle("article.content")}<font color="red">*</font>:</label>
-				<textarea id="content" name="content" style="width:655px;height:500px;" ></textarea>
+				<label>${bundle("article.content")}<font color="red">*</font>:
+				<input type="button" value="切换编辑器" id="switchEditor">
+				</label>
+				<input name="editor" type="hidden" value="${editor}">
+				<#if editor == 'editormd'>
+				    <div id="content">
+				        <textarea name="content" style="display:none;"></textarea>
+				    </div>		
+				<#else>
+					<textarea id="content" name="content" style="width:655px;height:500px;" ></textarea>
+				</#if>	
 			</p>
 			<p>
 				<label>${bundle("article.tag")}:</label><input type="text" name="tags" id="tags" class="validate[optional,maxSize[255]] text-long" style="width:640px;"/>
 			</p>			
 			<p>
-				<label>${bundle("article.summary")}:</label><textarea style="width:655px;height:300px;" name="summary" id="summary" class="validate[optional,maxSize[1000]]"></textarea>
+				<label>${bundle("article.summary")}:</label>
+				<#if editor == 'editormd'>
+				    <div id="summary">
+				        <textarea name="summary" class="validate[optional,maxSize[1000]]" style="display:none;"></textarea>
+				    </div>		
+				<#else>
+					<textarea style="width:655px;height:300px;" name="summary" id="summary" class="validate[optional,maxSize[1000]]"></textarea>
+				</#if>				
 			</p>
 			<p>
 				<label>${bundle("article.status")}<font color="red">*</font>:</label>

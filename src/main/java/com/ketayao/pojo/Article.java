@@ -58,6 +58,7 @@ public class Article extends POJO implements Searchable {
     private long                categoryId;
     private long                userId;
     private String              imgUrl;
+    private String              editor;
 
     // 排除字段
     private User                user;
@@ -347,6 +348,24 @@ public class Article extends POJO implements Searchable {
         this.imgUrl = imgUrl;
     }
 
+    /**
+     * Getter method for property <tt>editor</tt>.
+     * 
+     * @return property value of editor
+     */
+    public String getEditor() {
+        return editor;
+    }
+
+    /**
+     * Setter method for property <tt>editor</tt>.
+     * 
+     * @param editor value to be assigned to property editor
+     */
+    public void setEditor(String editor) {
+        this.editor = editor;
+    }
+
     /**  
      * 返回 user 的值   
      * @return user  
@@ -536,8 +555,8 @@ public class Article extends POJO implements Searchable {
 
     @SuppressWarnings("unchecked")
     public List<Article> findHotest(PageInfo pageInfo) {
-        List<Long> ids = getIds("trash = 0 AND status = '" + Article.Status.PUBLISH
-                                + "' ORDER BY view DESC");
+        List<Long> ids = getIds(
+            "trash = 0 AND status = '" + Article.Status.PUBLISH + "' ORDER BY view DESC");
         pageInfo.setTotalRec(ids.size());
         List<Long> returnIds = ids.subList(pageInfo.getStartIndex(), pageInfo.getEndIndex());
 
@@ -572,7 +591,8 @@ public class Article extends POJO implements Searchable {
         }
 
         List<Long> ids = getIds("trash = 0 AND status = '" + Article.Status.PUBLISH
-                                + "' AND id in (?) ORDER BY id DESC", idString);
+                                + "' AND id in (?) ORDER BY id DESC",
+            idString);
         pageInfo.setTotalRec(ids.size());
         List<Long> returnIds = ids.subList(pageInfo.getStartIndex(), pageInfo.getEndIndex());
 
@@ -583,7 +603,8 @@ public class Article extends POJO implements Searchable {
     @SuppressWarnings("unchecked")
     public List<Article> findByUserId(long userId, PageInfo pageInfo) {
         List<Long> ids = getIds("trash = 0 AND status = '" + Article.Status.PUBLISH
-                                + "' AND userId = ? ORDER BY id DESC", userId);
+                                + "' AND userId = ? ORDER BY id DESC",
+            userId);
         pageInfo.setTotalRec(ids.size());
         List<Long> returnIds = ids.subList(pageInfo.getStartIndex(), pageInfo.getEndIndex());
 
@@ -602,8 +623,8 @@ public class Article extends POJO implements Searchable {
         Timestamp endTime = new Timestamp(calendar.getTime().getTime());
 
         List<Long> ids = getIds("trash = 0 AND status = '" + Article.Status.PUBLISH
-                                + "' AND postTime BETWEEN ? AND ? ORDER BY id DESC", startTime,
-            endTime);
+                                + "' AND postTime BETWEEN ? AND ? ORDER BY id DESC",
+            startTime, endTime);
         pageInfo.setTotalRec(ids.size());
         List<Long> returnIds = ids.subList(pageInfo.getStartIndex(), pageInfo.getEndIndex());
 
@@ -653,7 +674,8 @@ public class Article extends POJO implements Searchable {
     @SuppressWarnings("unchecked")
     public List<Article> search(String title, PageInfo pageInfo) {
         List<Long> ids = getIds("trash = 0 AND status = '" + Article.Status.PUBLISH
-                                + "' AND title like ? ORDER BY id DESC", "%" + title + "%");
+                                + "' AND title like ? ORDER BY id DESC",
+            "%" + title + "%");
         pageInfo.setTotalRec(ids.size());
         List<Long> returnIds = ids.subList(pageInfo.getStartIndex(), pageInfo.getEndIndex());
 
@@ -680,8 +702,8 @@ public class Article extends POJO implements Searchable {
      * @return
      */
     public Article next() {
-        List<Long> ids = getIds(" id > ? AND trash = ? AND status = ? ORDER BY id LIMIT 1",
-            getId(), 0, Article.Status.PUBLISH);
+        List<Long> ids = getIds(" id > ? AND trash = ? AND status = ? ORDER BY id LIMIT 1", getId(),
+            0, Article.Status.PUBLISH);
         if (ids.isEmpty()) {
             return null;
         }
@@ -770,8 +792,8 @@ public class Article extends POJO implements Searchable {
     @SuppressWarnings("unchecked")
     @Override
     public List<? extends Searchable> listAfter(long id, int count) {
-        return (List<Article>) Article.INSTANCE.list("trash = 0 AND status = '"
-                                                     + Article.Status.PUBLISH + "' AND id > " + id);
+        return (List<Article>) Article.INSTANCE
+            .list("trash = 0 AND status = '" + Article.Status.PUBLISH + "' AND id > " + id);
     }
 
     private String preview;

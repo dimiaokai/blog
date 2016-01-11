@@ -4,3 +4,12 @@
 .wp-pagenavi span.pages { padding: 4px 8px !important; margin: 2px !important; font-style: italic !important; color: #999 !important; font-size: 11px !important; }
 .wp-pagenavi span.current { padding: 4px 8px !important; margin: 2px !important; font-weight: bold !important; border: 1px solid #3399cc !important; background: #3399cc !important; color: #fff !important; }
 .wp-pagenavi span.extend { padding: 4px 8px !important; margin: 2px !important; border: 1px solid #ddd !important; background-color: #FFFFFF !important; }
+
+
+.markdown-body .markdown-toc ul, .markdown-body .markdown-toc ol {
+	padding-left:0px;
+}
+
+.markdown-body .markdown-toc ul li, .markdown-body .markdown-toc ol li {
+	margin-left:20px;
+}

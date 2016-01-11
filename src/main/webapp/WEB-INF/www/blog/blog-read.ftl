@@ -61,7 +61,15 @@
   	<!-- .entry-header -->
   
   	<div class="entry-content">
-	<#noescape>${a.preview}</#noescape>	
+  	<#if a.editor == 'editormd'>
+  	  <div>
+  	  <div class="editormd-content" id="editormd-${a.id}">
+           <textarea style="display:none;"><#noescape>${a.preview}</#noescape></textarea>
+      <div>  
+      </div>        
+  	<#else>
+  		<#noescape>${a.preview}</#noescape>
+  	</#if>  	
 	<a class="more-link" href="${rc.contextPath}/view/${a.id}">继续阅读 <span class="meta-nav">→</span></a></p>
 	</div>
   	<!-- .entry-content -->
@@ -87,5 +95,22 @@
 	<#noescape>${pageInfo.blogStyle}</#noescape>
 	</div>
  </#if>
+ 
+<link rel="stylesheet" href="${rc.contextPath}/styles/editormd/css/editormd.preview.css" />
+<script src="${rc.contextPath}/styles/editormd/lib/marked.min.js"></script>
+<script src="${rc.contextPath}/styles/editormd/lib/prettify.min.js"></script>
+<script src="${rc.contextPath}/styles/editormd/editormd.min.js"></script>
+<script type="text/javascript">
+    $(function() {
+        var editormdContent;
+        
+        $(".editormd-content").each(function(){
+			editormd.markdownToHTML($(this).attr("id"), {
+	            htmlDecode      : "style,script,iframe",  // you can filter tags decode
+	            emoji           : true
+	        });                    
+        });
+    });
+</script>
 </@com.page>
 </#escape>
