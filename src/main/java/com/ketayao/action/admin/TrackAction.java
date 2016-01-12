@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
@@ -30,6 +31,8 @@ import com.ketayao.fensy.mvc.WebContext;
 import com.ketayao.pojo.Track;
 import com.ketayao.pojo.TrackList;
 import com.ketayao.system.Constants;
+import com.ketayao.system.SystemConfig;
+import com.ketayao.util.FileUtils;
 
 /** 
  * 	
@@ -42,12 +45,12 @@ public class TrackAction {
 
     private final static String READ      = "admin/site/track-read";
 
-    private final static String PLAY_PATH = "/styles/dewplayer/playlist.xml";
+    public final static String  PLAY_PATH = "/styles/dewplayer/playlist.xml";
 
     @RolePermission(role = IUser.ROLE_TOP)
     @SuppressWarnings("unchecked")
     public String r(WebContext rc) throws Exception {
-        String playlist = rc.getContext().getRealPath("/") + PLAY_PATH;
+        String playlist = getPlaylist(rc);
 
         SAXReader saxReader = new SAXReader();
         saxReader.setEncoding("UTF-8");
@@ -79,7 +82,8 @@ public class TrackAction {
     @RolePermission(role = IUser.ROLE_TOP)
     @SuppressWarnings("rawtypes")
     public String u(WebContext rc) throws Exception {
-        String playlist = rc.getContext().getRealPath("/") + PLAY_PATH;
+        String playlist = getPlaylist(rc);
+
         Document document = DocumentHelper.createDocument();
 
         Element rootElement = document.addElement("playlist");
@@ -113,5 +117,16 @@ public class TrackAction {
         rc.setRequestAttr(Constants.OPERATION_SUCCESS, Constants.OPERATION_SUCCESS);
 
         return r(rc);
+    }
+
+    public static String getPlaylist(WebContext rc) {
+        String playlist = SystemConfig.getConfig().get("blog.dewplayer.path");
+        if (StringUtils.isBlank(playlist)) {
+            playlist = rc.getContext().getRealPath("/") + TrackAction.PLAY_PATH;
+        }
+
+        playlist = FileUtils.getUserHomePath(playlist);
+
+        return playlist;
     }
 }

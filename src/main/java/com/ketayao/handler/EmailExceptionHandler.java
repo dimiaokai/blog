@@ -17,6 +17,7 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,7 +27,6 @@ import com.ketayao.fensy.mvc.WebContext;
 import com.ketayao.fensy.webutil.RequestUtils;
 import com.ketayao.system.SystemConfig;
 import com.ketayao.util.EmailUtils;
-import com.ketayao.util.StringUtils;
 
 /**
  * 
@@ -200,19 +200,16 @@ public class EmailExceptionHandler extends SimpleExceptionHandler {
     public String handle(final WebContext rc, final Exception exception) {
         String view = super.handle(rc, exception);
 
-        if (org.apache.commons.lang3.StringUtils
-            .equals(SystemConfig.getConfig().get("blog.exception.email.switch"), "true")) {
+        if (StringUtils.equals(SystemConfig.getConfig().get("blog.exception.email.switch"),
+            "true")) {
+            new Thread(new Runnable() {
 
+                @Override
+                public void run() {
+                    reportError(rc.getRequest(), exception);
+                }
+            }).start();
         }
-
-        Thread thread = new Thread(new Runnable() {
-
-            @Override
-            public void run() {
-                reportError(rc.getRequest(), exception);
-            }
-        });
-        thread.start();
 
         return view;
     }

@@ -6,11 +6,11 @@ import java.net.URL;
 
 import javax.servlet.ServletOutputStream;
 
-import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.ketayao.fensy.mvc.WebContext;
+import com.ketayao.fensy.util.IOUtils;
 import com.ketayao.util.QiNiuUtils;
 
 /**

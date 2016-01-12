@@ -198,7 +198,7 @@ span.highlight {
 		<object type="application/x-shockwave-flash" data="${rc.contextPath}/styles/dewplayer/dewplayer-playlist.swf" width="240" height="200" id="dewplayer" name="dewplayer">
 			<param name="wmode" value="transparent" />
 			<param name="movie" value="dewplayer-playlist.swf" />
-			<param name="flashvars" value="showtime=true&autoreplay=true&autostart=true&xml=${rc.contextPath}/styles/dewplayer/playlist.xml" />
+			<param name="flashvars" value="showtime=true&autoreplay=true&autostart=true&xml=${rc.contextPath}/music" />
 		</object>		         
       </aside>      
       <aside id="meta-2" class="widget widget_meta">
@@ -212,7 +212,7 @@ span.highlight {
   </div>
   <!-- #main .wrapper -->
   <footer id="colophon" role="contentinfo">
-    <div class="site-info"> <a href="${siteConfig.url}" title="${siteConfig.name}">© Copyright 2011-2013 &nbsp;${siteConfig.icp}&nbsp;<a href="${siteConfig.url}">${siteConfig.name}</a></a> </div>
+    <div class="site-info"> <a href="${siteConfig.url}" title="${siteConfig.name}">© Copyright 2011-2016 &nbsp;${siteConfig.icp}&nbsp;<a href="${siteConfig.url}">${siteConfig.name}</a></a> </div>
     <!-- .site-info --> 
   </footer>
   <!-- #colophon --> 

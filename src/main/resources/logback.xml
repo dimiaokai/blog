@@ -7,9 +7,9 @@
 	</appender>
 
 	<appender name="rollingFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<file>keta_logs/fensy.log</file>
+		<file>~/keta_logs/fensy.log</file>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<fileNamePattern>keta_logs/fensy.%d{yyyy-MM-dd}.log</fileNamePattern>
+			<fileNamePattern>~/keta_logs/fensy.%d{yyyy-MM-dd}.log</fileNamePattern>
 		</rollingPolicy>
 		<encoder>
 			<pattern>%d [%thread] %-5level %logger{36} - %msg%n</pattern>

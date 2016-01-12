@@ -25,7 +25,7 @@
 		});
 		
 		$("#switchEditor").click(function(){
-			if(!confirm("切换编辑器将会丢失未保存的内容，确定离开吗？")){
+			if(!confirm("${bundle("form.editor.switch.confirm")}")){
 				return;
 			}
 			var edit;
@@ -61,6 +61,9 @@
 }
 </style>
 <script src="${rc.contextPath}/styles/editormd/editormd.min.js"></script>
+<#if rc.locale.language != 'zh'>
+<script src="${rc.contextPath}/styles/editormd/languages/${(rc.locale.language)!'en'}.js"></script>
+</#if>
 <script type="text/javascript">
 	var editor;
 	var editorSummary;
@@ -81,6 +84,9 @@
             imageFormats : ["jpg", "jpeg", "gif", "png", "bmp"],
             imageUploadURL : "${rc.contextPath}/admin/file/upload?editor=editormd",
 			toc : true,
+			autoFocus : false,
+			watch : false,
+			htmlDecode : true,
             emoji : true,       // Support Github emoji, Twitter Emoji(Twemoji), fontAwesome, Editor.md logo emojis.
             onfullscreen : function() {
                 $("#" + this.id).addClass("top-frame");
@@ -96,6 +102,7 @@
             syncScrolling : "single",
             path    : "${rc.contextPath}/styles/editormd/lib/",
             imageUpload : true,
+            htmlDecode : true,
             imageFormats : ["jpg", "jpeg", "gif", "png", "bmp"],
             imageUploadURL : "${rc.contextPath}/admin/file/upload?editor=editormd",
             onfullscreen : function() {
@@ -263,15 +270,15 @@ function deleteImg(){
 			<p>
 				<label>${bundle("article.imgUrl")}:<img id="loading" src="${rc.contextPath}/styles/AjaxFileUploaderV2.1/loading.gif" style="display:none;"></label>
 				<input id="imgFile" type="file" size="45" name="imgFile" class="text-long">
-				<input type="button" value="上传" onclick="return ajaxFileUpload();">
+				<input type="button" value="${bundle("form.upload")}" onclick="return ajaxFileUpload();">
 			</p>
 			<p>
 				<#if (article.imgUrl)?exists || (article.imgUrl) != ''>
 					<img id="showUrl" src="${article.imgUrl}" width="666">
-					<input id="delImgBtn" type="button" value="删除" onclick="deleteImg();">
+					<input id="delImgBtn" type="button" value="${bundle("form.delete")}" onclick="deleteImg();">
 				<#else>
 					<img id="showUrl" src="" style="display:none;">
-					<input id="delImgBtn" type="button" value="删除" onclick="deleteImg();" style="display:none;">
+					<input id="delImgBtn" type="button" value="${bundle("form.delete")}" onclick="deleteImg();" style="display:none;">
 				</#if>
 				<input type="hidden" id="imgUrl" name="imgUrl" value="${article.imgUrl}">
 			</p>			
@@ -300,7 +307,7 @@ function deleteImg(){
 			</div>
 			<p>
 				<label>${bundle("article.content")}<font color="red">*</font>:
-				<input type="button" value="切换编辑器" id="switchEditor">
+				<input type="button" value="${bundle("form.editor.switch")}" id="switchEditor">
 				</label>
 				<input name="editor" type="hidden" value="${editor}">
 				<#if editor == 'editormd'>

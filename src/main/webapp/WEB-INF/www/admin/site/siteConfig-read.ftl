@@ -18,34 +18,50 @@
     
 </script>
 
-<script charset="utf-8" src="${rc.contextPath}/styles/kindeditor-4.1.10/kindeditor-min.js"></script>
-<link rel="stylesheet" type="text/css" href="${rc.contextPath}/styles/kindeditor-4.1.10/shcodeandquote.css" />
-<script>
+<link rel="stylesheet" href="${rc.contextPath}/styles/editormd/css/editormd.css" />
+<style>
+.top-frame {
+	z-index:999999;
+}
+</style>
+<script src="${rc.contextPath}/styles/editormd/editormd.min.js"></script>
+<#if rc.locale.language != 'zh'>
+<script src="${rc.contextPath}/styles/editormd/languages/${(rc.locale.language)!'en'}.js"></script>
+</#if>
+<script type="text/javascript">
 	var editor;
-	KindEditor.ready(function(K) {
-		editor = K.create('textarea[id="about"]', {
-			langType : '<#if rc.locale?? && rc.locale != 'zh_CN'>en<#else>${(rc.locale)!'zh_CN'}</#if>',
-			uploadJson : '${rc.contextPath}/admin/file/upload',
-			cssPath : ['${rc.contextPath}/styles/kindeditor-4.1.10/plugins/shcode/shcode.css'],
-			allowFileManager : false,
-			newlineTag : 'br',
-			items : [
-					'source', '|', 'undo', 'redo', '|', 'preview', 'print', 'template', 'shcode', 'quote', 'cut', 'copy', 'paste',
-					'plainpaste', 'wordpaste', '|', 'justifyleft', 'justifycenter', 'justifyright',
-					'justifyfull', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent', 'subscript',
-					'superscript', 'clearhtml', 'quickformat', 'selectall',
-					'formatblock', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold',
-					'italic', 'underline', 'strikethrough', 'lineheight', 'removeformat', '|', 'image', 'multiimage',
-					'flash', 'media', 'table', 'hr', 'emoticons', 'baidumap', 'pagebreak',
-					'anchor', 'link', 'unlink', '/', 'fullscreen', 'about'
-				],
-			filterMode : false,			
-			afterChange : function() {
-				jQuery('#about').validationEngine('hide');
-			}
-		});
-	});
+
+    $(function() {
+        // You can custom Emoji's graphics files url path
+        editormd.emoji     = {
+            path  : "http://www.emoji-cheat-sheet.com/graphics/emojis/",
+            ext   : ".png"
+        };
+    
+        editor = editormd("description", {
+            width   : "100%",
+            height  : 640,
+            syncScrolling : "single",
+            path    : "${rc.contextPath}/styles/editormd/lib/",
+            imageUpload : true,
+            imageFormats : ["jpg", "jpeg", "gif", "png", "bmp"],
+            imageUploadURL : "${rc.contextPath}/admin/file/upload?editor=editormd",
+			toc : true,
+			autoFocus : false,
+			htmlDecode : true,
+			watch : false,
+            emoji : true,       // Support Github emoji, Twitter Emoji(Twemoji), fontAwesome, Editor.md logo emojis.
+            onfullscreen : function() {
+                $("#" + this.id).addClass("top-frame");
+            },
+            onfullscreenExit : function() {
+                $("#" + this.id).removeClass("top-frame");
+            }         
+        });
+    });
+   
 </script>
+
 <div id="main">
 		<h3 style="text-align:center;color:red;">
 			<#if success??>${bundle("action.siteConfig.update")}</#if>
@@ -68,7 +84,10 @@
 				<label>${bundle("siteConfig.icp")}:</label><input id="icp" name="icp" class="text-long validate[optional,maxSize[50]]" value="${siteConfig.icp}" />
 			</p>
 			<p>
-				<label>${bundle("siteConfig.contactDescription")}<font color="red">*</font>:</label><textarea name="contactDescription" id="description" style="width:655px;height:200px;">${siteConfig.contactDescription}</textarea>
+				<label>${bundle("siteConfig.contactDescription")}<font color="red">*</font>:</label>
+			    <div id="description">
+			    	<textarea name="contactDescription" class="validate[optional,maxSize[1000]]" style="display:none;">${siteConfig.contactDescription}</textarea>
+			    </div>					
 			</p>
 			<input type="submit" value='${bundle("form.save")}' />
 		</fieldset>

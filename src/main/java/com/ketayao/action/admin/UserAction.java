@@ -82,10 +82,9 @@ public class UserAction {
     public String info(WebContext rc) throws Exception {
         User user = User.getLoginUser(rc);
 
-        user.updateAttrs(
-            new String[] { "nickname", "email", "frozen", "role" },
+        user.updateAttrs(new String[] { "nickname", "email", "frozen", "role" },
             new Object[] { rc.getParam("nickname"), rc.getParam("email"),
-                    (byte) rc.getParam("frozen", 0), (byte) rc.getParam("role", 0) });
+                           (byte) rc.getParam("frozen", 0), (byte) rc.getParam("role", 0) });
         user.setNickname(rc.getParam("nickname"));
         user.setEmail(rc.getParam("email"));
         user.setFrozen((byte) rc.getParam("frozen", 0));

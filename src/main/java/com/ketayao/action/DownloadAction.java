@@ -19,7 +19,6 @@ import java.net.URL;
 
 import javax.servlet.ServletOutputStream;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +26,7 @@ import org.slf4j.LoggerFactory;
 import com.ketayao.action.admin.AttachAction;
 import com.ketayao.fensy.mvc.WebContext;
 import com.ketayao.fensy.util.Exceptions;
+import com.ketayao.fensy.util.IOUtils;
 import com.ketayao.fensy.webutil.ServletUtils;
 import com.ketayao.fensy.webutil.StorageService;
 import com.ketayao.pojo.Attach;

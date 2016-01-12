@@ -17,13 +17,13 @@ import java.net.URLEncoder;
 import java.util.Arrays;
 import java.util.Map;
 
-import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.ketayao.fensy.mvc.WebContext;
 import com.ketayao.fensy.util.Exceptions;
+import com.ketayao.fensy.util.FilenameUtils;
 import com.ketayao.fensy.webutil.StorageService;
 import com.ketayao.pojo.Article;
 import com.ketayao.pojo.Attach;
