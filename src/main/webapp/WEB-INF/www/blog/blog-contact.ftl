@@ -12,12 +12,29 @@
   	<!-- .entry-header -->
   
   	<div class="entry-content">
-	<#noescape>${siteConfig.contactDescription}</#noescape>
+  	  <div id="editormd-content">
+           <textarea style="display:none;"><#noescape>${siteConfig.contactDescription}</#noescape></textarea>
+      <div>  
 	</div>
   	<!-- .entry-content -->
   	
 </article>
 <!-- #post -->
+<link rel="stylesheet" href="${rc.contextPath}/styles/editormd/css/editormd.preview.css" />
+<script src="${rc.contextPath}/styles/editormd/lib/marked.min.js"></script>
+<script src="${rc.contextPath}/styles/editormd/lib/prettify.min.js"></script>
+<script src="${rc.contextPath}/styles/editormd/editormd.min.js"></script>
+<script type="text/javascript">
+    $(function() {
+        var editormdContent;
+        
+        editormdContent = editormd.markdownToHTML("editormd-content", {
+            htmlDecode      : "style,script,iframe",  // you can filter tags decode
+            emoji           : true
+        });            
+    });
+</script>
+
 
 <div class="comments-area" id="comments">
 <#-- form验证 -->

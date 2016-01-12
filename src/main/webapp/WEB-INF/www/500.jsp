@@ -30,7 +30,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="zh-CN">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<meta http-equiv="refresh" content="20; url=${pageContext.request.contextPath}">
+	<meta http-equiv="refresh" content="20; url=${siteConfig.url}">
 	<title>ERROR | ${siteConfig.name}</title>
 	<style type="text/css">
 		html {
