@@ -40,7 +40,7 @@ $(document).ready(function(){
 <body>
 	<div id="wrapper">
 		<div class="logo">
-			<a href="${rc.contextPath}"></a>
+			<a href="${siteConfig.url}"></a>
 			<div class="banner">
 				${bundle("login.welcome", user.nickname!'')}
 			</div>
