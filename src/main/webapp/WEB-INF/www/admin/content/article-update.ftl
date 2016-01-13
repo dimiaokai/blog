@@ -2,7 +2,6 @@
 <#include "WEB-INF/www/admin/lib/content-nav.ftl"/>
 <#--currentNav定义-->
 <#assign currentNav>${bundle("site.articleManage.update")}</#assign>
-</#compress>
 <#escape x as x?html>
 <@com.page title=title sideNav=sideNav sideNavUrl=sideNavUrl parentNav=parentNav parentNavUrl=parentNavUrl currentNav=currentNav>
 <#-- autocomplete -->
@@ -352,3 +351,4 @@ function deleteImg(){
 </div>
 <#-- // #main -->
 </@com.page>
+</#escape>

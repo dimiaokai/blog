@@ -3,7 +3,6 @@
 
 <#--currentNav定义-->
 <#assign currentNav>${bundle("site.siteConfigManage.manage")}</#assign>
-
 <#escape x as x?html>
 <@com.page title=title sideNav=sideNav sideNavUrl=sideNavUrl parentNav=parentNav parentNavUrl=parentNavUrl currentNav=currentNav>
 <#-- form验证 -->

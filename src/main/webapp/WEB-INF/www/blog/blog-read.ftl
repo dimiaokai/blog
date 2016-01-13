@@ -63,7 +63,7 @@
   	<#if a.editor == 'editormd'>
   	<div>
   	  <div class="editormd-content" id="editormd-${a.id}">
-           <textarea style="display:none;"><#noescape>${a.preview}</#noescape><a class="more-link" href="${rc.contextPath}/view/${a.id}">继续阅读 <span class="meta-nav">→</span></a></textarea>
+           <textarea style="display:none;"><#noescape>${a.preview}</#noescape> [继续阅读 →](${rc.contextPath}/view/${a.id} "继续阅读 →")</a></textarea>
       <div>
    	</div>     
   	<#else>
