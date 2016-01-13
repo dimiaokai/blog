@@ -13,3 +13,7 @@
 .markdown-body .markdown-toc ul li, .markdown-body .markdown-toc ol li {
 	margin-left:20px;
 }
+
+.markdown-body table {
+	border:none;
+}

@@ -1,4 +1,3 @@
-<#compress>
 <#import "WEB-INF/www/admin/lib/common.ftl" as com>
 <#include "WEB-INF/www/admin/lib/content-nav.ftl"/>
 
@@ -86,6 +85,7 @@
             imageFormats : ["jpg", "jpeg", "gif", "png", "bmp"],
             imageUploadURL : "${rc.contextPath}/admin/file/upload?editor=editormd",
 			toc : true,
+			tocTitle : "目录",
 			autoFocus : false,
 			htmlDecode : true,
 			watch : false,
@@ -105,6 +105,7 @@
             path    : "${rc.contextPath}/styles/editormd/lib/",
             imageUpload : true,
             htmlDecode : true,
+            tocTitle : "目录",
             imageFormats : ["jpg", "jpeg", "gif", "png", "bmp"],
             imageUploadURL : "${rc.contextPath}/admin/file/upload?editor=editormd",
             onfullscreen : function() {
@@ -298,4 +299,3 @@ function deleteImg(){
 </div>
 <!-- // #main -->
 </@com.page>
-</#escape>

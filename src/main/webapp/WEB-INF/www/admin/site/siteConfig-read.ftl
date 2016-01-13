@@ -1,4 +1,3 @@
-<#compress>
 <#import "WEB-INF/www/admin/lib/common.ftl" as com/>
 <#include "WEB-INF/www/admin/lib/site-nav.ftl"/>
 
@@ -49,6 +48,7 @@
 			toc : true,
 			autoFocus : false,
 			htmlDecode : true,
+			tocTitle : "目录",
 			watch : false,
             emoji : true,       // Support Github emoji, Twitter Emoji(Twemoji), fontAwesome, Editor.md logo emojis.
             onfullscreen : function() {
@@ -87,7 +87,7 @@
 				<label>${bundle("siteConfig.contactDescription")}<font color="red">*</font>:</label>
 			    <div id="description">
 			    	<textarea name="contactDescription" class="validate[optional,maxSize[1000]]" style="display:none;">${siteConfig.contactDescription}</textarea>
-			    </div>					
+			    </div>
 			</p>
 			<input type="submit" value='${bundle("form.save")}' />
 		</fieldset>
@@ -96,8 +96,5 @@
         <br/><br/>
 </div>
 <!-- // #main -->
-
 </@com.page>
-
 </#escape>
-</#compress>

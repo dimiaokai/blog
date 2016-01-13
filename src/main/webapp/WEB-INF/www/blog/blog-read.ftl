@@ -59,20 +59,19 @@
 	<!-- .comments-link --> 
   	</header>
   	<!-- .entry-header -->
-  
   	<div class="entry-content">
   	<#if a.editor == 'editormd'>
-  	  <div>
+  	<div>
   	  <div class="editormd-content" id="editormd-${a.id}">
-           <textarea style="display:none;"><#noescape>${a.preview}</#noescape></textarea>
-      <div>  
-      </div>        
+           <textarea style="display:none;"><#noescape>${a.preview}</#noescape><a class="more-link" href="${rc.contextPath}/view/${a.id}">继续阅读 <span class="meta-nav">→</span></a></textarea>
+      <div>
+   	</div>     
   	<#else>
   		<#noescape>${a.preview}</#noescape>
-  	</#if>  	
-	<a class="more-link" href="${rc.contextPath}/view/${a.id}">继续阅读 <span class="meta-nav">→</span></a></p>
-	</div>
+  		<a class="more-link" href="${rc.contextPath}/view/${a.id}">继续阅读 <span class="meta-nav">→</span></a>
   	<!-- .entry-content -->
+  	</#if>
+  	</div>  	
   
 	<footer class="entry-meta"> 本条目发布于
 	<a href="${rc.contextPath}/view/${a.id}" title="${a.postTime?string.short}" rel="bookmark"><time class="entry-date" datetime="${a.postTime}">${a.postTime?string("yyyy年MM月dd日")}</time></a>。
@@ -106,7 +105,8 @@
         
         $(".editormd-content").each(function(){
 			editormd.markdownToHTML($(this).attr("id"), {
-	            htmlDecode      : "style,script,iframe",  // you can filter tags decode
+	            htmlDecode      : true,  // you can filter tags decode
+	            tocTitle : "目录",
 	            emoji           : true
 	        });                    
         });

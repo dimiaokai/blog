@@ -10,12 +10,11 @@
 	<h1 class="entry-title" style="text-align:center;">关于${siteConfig.name}</h1>
   	</header>
   	<!-- .entry-header -->
-  
   	<div class="entry-content">
   	  <div id="editormd-content">
            <textarea style="display:none;"><#noescape>${siteConfig.contactDescription}</#noescape></textarea>
       <div>  
-	</div>
+    </div>  
   	<!-- .entry-content -->
   	
 </article>
@@ -30,6 +29,7 @@
         
         editormdContent = editormd.markdownToHTML("editormd-content", {
             htmlDecode      : "style,script,iframe",  // you can filter tags decode
+            tocTitle : "目录",
             emoji           : true
         });            
     });

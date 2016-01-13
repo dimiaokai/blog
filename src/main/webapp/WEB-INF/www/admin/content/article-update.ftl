@@ -1,4 +1,3 @@
-<#compress>
 <#import "WEB-INF/www/admin/lib/common.ftl" as com>
 <#include "WEB-INF/www/admin/lib/content-nav.ftl"/>
 <#--currentNav定义-->
@@ -86,6 +85,7 @@
 			toc : true,
 			autoFocus : false,
 			watch : false,
+			tocTitle : "目录",
 			htmlDecode : true,
             emoji : true,       // Support Github emoji, Twitter Emoji(Twemoji), fontAwesome, Editor.md logo emojis.
             onfullscreen : function() {
@@ -102,6 +102,7 @@
             syncScrolling : "single",
             path    : "${rc.contextPath}/styles/editormd/lib/",
             imageUpload : true,
+            tocTitle : "目录",
             htmlDecode : true,
             imageFormats : ["jpg", "jpeg", "gif", "png", "bmp"],
             imageUploadURL : "${rc.contextPath}/admin/file/upload?editor=editormd",
@@ -351,4 +352,3 @@ function deleteImg(){
 </div>
 <#-- // #main -->
 </@com.page>
-</#escape>

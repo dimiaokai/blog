@@ -183,7 +183,8 @@
             var editormdContent;
             
             editormdContent = editormd.markdownToHTML("editormd-content", {
-                htmlDecode      : "style,script,iframe",  // you can filter tags decode
+                htmlDecode      : true,  // you can filter tags decode
+                tocTitle : "目录",
                 emoji           : true
             });            
         });

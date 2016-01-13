@@ -3111,10 +3111,10 @@
 }
 
 .editormd-preview-container, .editormd-html-preview {
+  color: #444;	
   text-align: left;
-  font-size: 14px;
-  line-height: 1.6;
-  padding: 20px;
+  font-size: 13px;
+  line-height: 1.7;
   overflow: auto;
   width: 100%;
   background-color: #fff;
